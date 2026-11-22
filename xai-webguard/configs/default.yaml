@@ -1,0 +1,65 @@
+# XAI-WebGuard configuration.
+# Point each source at your local copy of the dataset and set the column names.
+# Nothing here downloads data. Labels are harmonised to {benign, sqli, xss}.
+
+seed: 0
+split: [0.70, 0.15, 0.15]
+
+# ---- training corpus (in-distribution) ----
+sources:
+  - name: sqli_v2
+    path: data/sql_injection_v2.csv          # Mendeley 10.17632/mmc4sdmnrc.2
+    text_col: Query
+    label_col: Label
+    label_map: {"0": benign, "1": sqli}
+    default_field: query
+
+  - name: xss_large
+    path: data/xss_large.csv                  # IEEE DataPort 10.21227/5w2z-3v64
+    text_col: Query
+    label_col: Label
+    label_map: {"0": benign, "1": xss}
+    default_field: query
+
+  - name: csic2010
+    path: data/csic2010.csv                   # HTTP CSIC 2010 (export to CSV)
+    text_col: payload
+    label_col: label
+    label_map: {normal: benign, anomalous: sqli}   # relabel per-attack if available
+    field_col: location
+    default_field: query
+
+# ---- held-out cross-dataset test ----
+cross_dataset:
+  - name: sr_bh_2020
+    path: data/sr_bh_2020.csv                 # Computers & Security 10.1016/j.cose.2022.102788
+    text_col: request
+    label_col: capec
+    label_map: {}                              # fill with CAPEC->{sqli,xss,benign}
+    default_field: query
+
+# ---- held-out obfuscation test ----
+obfuscation:
+  - name: xss_obfuscated
+    path: data/xss_obfuscated.csv             # IEEE DataPort 10.21227/qmtc-by33
+    text_col: Query
+    label_col: Label
+    label_map: {"0": benign, "1": xss}
+    default_field: query
+
+tree:
+  max_depth: 8
+  learning_rate: 0.1
+  n_estimators: 400
+  early_stopping: 30
+
+transformer:
+  model_name: microsoft/codebert-base        # or distilbert-base-uncased (lighter)
+  max_len: 256
+  epochs: 3
+  lr: 2.0e-5
+  batch_size: 16
+
+fusion:
+  uncertainty_band: 0.15
+  block_threshold: 0.90

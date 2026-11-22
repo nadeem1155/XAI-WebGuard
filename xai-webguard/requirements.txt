@@ -1,0 +1,19 @@
+# Core (needed for Model A, data, evaluation, serving)
+numpy>=1.24
+pandas>=2.0
+scipy>=1.10
+scikit-learn>=1.3
+xgboost>=2.0
+pyyaml>=6.0
+fastapi>=0.110
+uvicorn>=0.27
+pytest>=7.0
+
+# Model B (transformer) and token-level explanations — install when needed
+# torch>=2.1
+# transformers>=4.38
+# captum>=0.7        # optional; Integrated Gradients also works without it
+
+# Optional convenience
+# shap>=0.44         # not required: TreeSHAP uses xgboost pred_contribs
+# matplotlib>=3.7    # for make_figures

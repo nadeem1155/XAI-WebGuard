@@ -1,0 +1,4 @@
+Model,Accuracy,Macro Precision,Macro Recall,Macro F1,Weighted F1,Macro ROC-AUC,5-Fold CV F1,Training Time (s),Inference Latency (ms/sample)
+Logistic Regression,0.9945,0.9945,0.9945,0.9945,0.9945,0.9996,0.9945 (+/- 0.0009),16.27,0.002
+Random Forest,0.9961,0.9962,0.9961,0.9961,0.9961,0.9999,0.9952 (+/- 0.0010),1.56,0.039
+XGBoost,0.9966,0.9966,0.9966,0.9966,0.9966,0.9999,0.9967 (+/- 0.0008),82.74,0.017
